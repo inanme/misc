@@ -1,21 +1,25 @@
 package maps_test
 
 import (
-	"fmt"
+	"github.com/inanme/misc/ints"
+	"github.com/inanme/misc/ptr"
+	"testing"
+
 	"github.com/inanme/misc/maps"
 	"github.com/stretchr/testify/assert"
-	"sort"
-	"testing"
 )
 
 func TestKeys(t *testing.T) {
-	aMap := make(map[int]string)
-	keys := []int{1, 2, 3, 4}
-	for _, key := range keys {
-		aMap[key] = fmt.Sprintf("%d", key)
+	aMap := make(map[int]int)
+	numbers := ints.FiniteRange(ints.Range{End: ptr.Int(10)})
+	for _, key := range numbers {
+		aMap[key] = key
 	}
 
 	extractedKeys := maps.Keys(aMap)
-	sort.Ints(extractedKeys)
-	assert.Equal(t, extractedKeys, keys)
+	extractedValues := maps.Values(aMap)
+	for _, n := range numbers {
+		assert.Contains(t, extractedKeys, n)
+		assert.Contains(t, extractedValues, n)
+	}
 }

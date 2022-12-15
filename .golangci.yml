@@ -1,15 +1,9 @@
 linters:
   enable-all: true
   disable:
-    - cyclop
-    - exhaustivestruct
-    - exhaustruct
-    - nlreturn
-    - paralleltest
-    - wrapcheck
+    - varnamelen
     - wsl
-    - nestif
-    - gocritic
+    - nlreturn
 linters-settings:
   gocritic:
     disabled-checks:
