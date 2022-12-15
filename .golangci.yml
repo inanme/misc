@@ -1,0 +1,18 @@
+linters:
+  enable-all: true
+  disable:
+    - cyclop
+    - exhaustivestruct
+    - exhaustruct
+    - nlreturn
+    - paralleltest
+    - wrapcheck
+    - wsl
+    - nestif
+    - gocritic
+linters-settings:
+  gocritic:
+    disabled-checks:
+      - ifElseChain
+run:
+  tests: false
