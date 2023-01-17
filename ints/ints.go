@@ -26,24 +26,22 @@ func (r *Range) GetStep() int {
 	return *r.Step
 }
 
-func FiniteRange(rangeConf Range) []int {
-	isInclusive := func() int {
-		if rangeConf.IsInclusive {
-			return 1
-		}
-		return 0
-	}
-	start := rangeConf.GetStart()
-	end := rangeConf.GetEnd() + isInclusive()
-	step := rangeConf.GetStep()
-	size := 1 + ((rangeConf.GetEnd() + isInclusive() - rangeConf.GetStart()) / rangeConf.GetStep())
-	if size <= 0 {
-		return []int{}
-	}
+const rangeSizeDefault = 32
 
-	intRange := make([]int, 0, size)
-	for i := start; i < end; i += step {
-		intRange = append(intRange, i)
+func FiniteRange(range0 Range, ranges ...Range) []int {
+	ranges = append(ranges, range0)
+	result := make([]int, 0, rangeSizeDefault)
+	for _, rangeConf := range ranges {
+		isInclusive := 0
+		if rangeConf.IsInclusive {
+			isInclusive = 1
+		}
+		start := rangeConf.GetStart()
+		end := rangeConf.GetEnd() + isInclusive
+		step := rangeConf.GetStep()
+		for i := start; i < end; i += step {
+			result = append(result, i)
+		}
 	}
-	return intRange
+	return result
 }

@@ -1,11 +1,11 @@
 package maps_test
 
 import (
-	"github.com/inanme/misc/ints"
-	"github.com/inanme/misc/ptr"
 	"testing"
 
+	"github.com/inanme/misc/ints"
 	"github.com/inanme/misc/maps"
+	"github.com/inanme/misc/ptr"
 	"github.com/stretchr/testify/assert"
 )
 

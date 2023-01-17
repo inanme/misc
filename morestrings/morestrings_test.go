@@ -1,9 +1,10 @@
 package morestrings_test
 
 import (
+	"testing"
+
 	"github.com/inanme/misc/morestrings"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestJoin(t *testing.T) {
