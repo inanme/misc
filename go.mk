@@ -1,4 +1,4 @@
-PLATFORM := $(shell go run arch/arch.go)
+PLATFORM := $(shell go run internal/tools/arch/arch.go)
 GORELEASER_VERSION := 1.12.3
 LINTER_VERSION := 1.50.1
 UNAME_S := $(shell uname -s)
