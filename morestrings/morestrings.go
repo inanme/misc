@@ -1,8 +1,33 @@
 package morestrings
 
 import (
+	"fmt"
 	"strings"
 )
+
+const (
+	DefaultCapacity = 1024
+)
+
+func JoinT[T fmt.Stringer](elems []T, sep, prefix, suffix string) string {
+	switch len(elems) {
+	case 0:
+		return ""
+	case 1:
+		return prefix + elems[0].String() + suffix
+	}
+
+	var b strings.Builder
+	b.Grow(DefaultCapacity)
+	b.WriteString(prefix)
+	b.WriteString(elems[0].String())
+	for _, e := range elems[1:] {
+		b.WriteString(sep)
+		b.WriteString(e.String())
+	}
+	b.WriteString(suffix)
+	return b.String()
+}
 
 func Join(elems []string, sep, prefix, suffix string) string {
 	joined := strings.Join(elems, sep)

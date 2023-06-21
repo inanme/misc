@@ -13,6 +13,20 @@ func TestJoin(t *testing.T) {
 	assert.Equal(t, "(1,2)", morestrings.Join([]string{"1", "2"}, ",", "(", ")"))
 }
 
+type person struct {
+	name string
+}
+
+func (p person) String() string {
+	return p.name
+}
+
+func TestJoinT(t *testing.T) {
+	assert.Equal(t, "", morestrings.JoinT[person](nil, ",", "(", ")"))
+	assert.Equal(t, "(1)", morestrings.JoinT([]person{{name: "1"}}, ",", "(", ")"))
+	assert.Equal(t, "(1,2)", morestrings.JoinT([]person{{name: "1"}, {name: "2"}}, ",", "(", ")"))
+}
+
 func TestContainsAll(t *testing.T) {
 	assert.True(t, morestrings.ContainsAll("", ""))
 	assert.True(t, morestrings.ContainsAll("1", "1"))
