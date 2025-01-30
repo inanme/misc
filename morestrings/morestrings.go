@@ -49,12 +49,40 @@ func ContainsAll(str, sub string, rest ...string) bool {
 	return true
 }
 
+func ContainsAllCaseInsensitive(str, sub string, rest ...string) bool {
+	str = strings.ToLower(str)
+	sub = strings.ToLower(sub)
+	if !strings.Contains(str, sub) {
+		return false
+	}
+	for _, sub := range rest {
+		if !strings.Contains(str, strings.ToLower(sub)) {
+			return false
+		}
+	}
+	return true
+}
+
 func ContainsAny(str, sub string, rest ...string) bool {
 	if strings.Contains(str, sub) {
 		return true
 	}
 	for _, sub := range rest {
 		if strings.Contains(str, sub) {
+			return true
+		}
+	}
+	return false
+}
+
+func ContainsAnyCaseInsensitive(str, sub string, rest ...string) bool {
+	str = strings.ToLower(str)
+	sub = strings.ToLower(sub)
+	if strings.Contains(str, sub) {
+		return true
+	}
+	for _, sub := range rest {
+		if strings.Contains(str, strings.ToLower(sub)) {
 			return true
 		}
 	}
@@ -75,6 +103,22 @@ func ContainAll(strs []string, sub string, rest ...string) bool {
 	return true
 }
 
+func ContainAllCaseInsensitive(strs []string, sub string, rest ...string) bool {
+	sub = strings.ToLower(sub)
+	for _, str := range strs {
+		str = strings.ToLower(str)
+		if !strings.Contains(str, sub) {
+			return false
+		}
+		for _, sub := range rest {
+			if !strings.Contains(str, strings.ToLower(sub)) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func ContainAny(strs []string, sub string, rest ...string) bool {
 	for _, str := range strs {
 		if strings.Contains(str, sub) {
@@ -82,6 +126,22 @@ func ContainAny(strs []string, sub string, rest ...string) bool {
 		}
 		for _, sub := range rest {
 			if strings.Contains(str, sub) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func ContainAnyCaseInsensitive(strs []string, sub string, rest ...string) bool {
+	sub = strings.ToLower(sub)
+	for _, str := range strs {
+		str = strings.ToLower(str)
+		if strings.Contains(str, sub) {
+			return true
+		}
+		for _, sub := range rest {
+			if strings.Contains(str, strings.ToLower(sub)) {
 				return true
 			}
 		}
