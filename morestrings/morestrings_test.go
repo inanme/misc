@@ -132,14 +132,32 @@ func TestContainAnyCaseInsensitive(t *testing.T) {
 }
 
 func TestHasSuffixAny(t *testing.T) {
+	// nil/empty slice — vacuous truth
+	assert.False(t, morestrings.HasSuffixAny(nil, "x"))
+	assert.False(t, morestrings.HasSuffixAny([]string{}, "x"))
+
+	// empty suffix matches everything
 	assert.True(t, morestrings.HasSuffixAny([]string{""}, ""))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, ""))
+
+	// single string, single suffix
 	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "c"))
-	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "bc", "c"))
-	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc"))
-	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc", "c"))
-	assert.True(t, morestrings.HasSuffixAny(nil, "x"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "abc"))
+	assert.False(t, morestrings.HasSuffixAny([]string{"abc"}, "a"))
 	assert.False(t, morestrings.HasSuffixAny([]string{"abc"}, "x"))
-	assert.False(t, morestrings.HasSuffixAny([]string{"abc"}, "c", "x"))
-	assert.False(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c"))
-	assert.False(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c", "z"))
+
+	// single string, multiple suffixes — all must match
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "bc", "c"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "c", "x"))
+
+	// multiple strings, single suffix — all strings must match
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c"))
+
+	// multiple strings, multiple suffixes — every string must have every suffix
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc", "c"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c", "z"))
+
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "c", "b"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "x", "c"))
 }

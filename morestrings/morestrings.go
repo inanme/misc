@@ -151,14 +151,14 @@ func ContainAnyCaseInsensitive(strs []string, sub string, rest ...string) bool {
 
 func HasSuffixAny(strs []string, sub string, rest ...string) bool {
 	for _, str := range strs {
-		if !strings.HasSuffix(str, sub) {
-			return false
+		if strings.HasSuffix(str, sub) {
+			return true
 		}
 		for _, sub := range rest {
-			if !strings.HasSuffix(str, sub) {
-				return false
+			if strings.HasSuffix(str, sub) {
+				return true
 			}
 		}
 	}
-	return true
+	return false
 }
