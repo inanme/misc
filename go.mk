@@ -1,6 +1,5 @@
 PLATFORM := $(shell go run internal/tools/arch/arch.go)
-GORELEASER_VERSION := 1.12.3
-LINTER_VERSION := 1.50.1
+LINTER_VERSION := 2.9.0
 UNAME_S := $(shell uname -s)
 UNAME_P := $(shell uname -p)
 
@@ -11,20 +10,10 @@ bin/golangci-lint: | bin
 	curl -fsL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v${LINTER_VERSION}
 	bin/golangci-lint version
 
-bin/goreleaser: | bin
-ifeq ($(UNAME_S),Linux)
-	wget https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_Linux_x86_64.tar.gz -cqO - | tar -xz -C bin goreleaser
-else ifeq ($(UNAME_S),Darwin)
-	wget https://github.com/goreleaser/goreleaser/releases/download/v${GORELEASER_VERSION}/goreleaser_Darwin_all.tar.gz -cqO - | tar -xz -C bin goreleaser
-else
-$(error "unkown OS")
-endif
-	bin/goreleaser --version
-
 pre-check: bin/golangci-lint
 	[[ `(gofmt -l .)`x == x ]] || (echo "go fmt failed" && gofmt -l . && exit 1)
 	go vet ./...
-	golangci-lint run ./...
+	bin/golangci-lint run ./...
 
 test: pre-check
 	go clean -testcache
@@ -40,7 +29,7 @@ bin/gci: | bin
 	GOBIN=$(abspath bin) go install github.com/daixiang0/gci@latest
 
 fmt: bin/goimports bin/gofumpt bin/gci
-	@gofumpt -w -l .
+	@bin/gofumpt -w -l .
 	@bin/goimports -w -l .
 	@bin/gci write .
 

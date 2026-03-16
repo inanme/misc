@@ -130,3 +130,16 @@ func TestContainAnyCaseInsensitive(t *testing.T) {
 	assert.True(t, morestrings.ContainAnyCaseInsensitive([]string{"1"}, "1", "2"))
 	assert.True(t, morestrings.ContainAnyCaseInsensitive([]string{"2"}, "1", "2"))
 }
+
+func TestHasSuffixAny(t *testing.T) {
+	assert.True(t, morestrings.HasSuffixAny([]string{""}, ""))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "c"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc"}, "bc", "c"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc"))
+	assert.True(t, morestrings.HasSuffixAny([]string{"abc", "xbc"}, "bc", "c"))
+	assert.True(t, morestrings.HasSuffixAny(nil, "x"))
+	assert.False(t, morestrings.HasSuffixAny([]string{"abc"}, "x"))
+	assert.False(t, morestrings.HasSuffixAny([]string{"abc"}, "c", "x"))
+	assert.False(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c"))
+	assert.False(t, morestrings.HasSuffixAny([]string{"abc", "xyz"}, "c", "z"))
+}

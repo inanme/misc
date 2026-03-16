@@ -148,3 +148,17 @@ func ContainAnyCaseInsensitive(strs []string, sub string, rest ...string) bool {
 	}
 	return false
 }
+
+func HasSuffixAny(strs []string, sub string, rest ...string) bool {
+	for _, str := range strs {
+		if !strings.HasSuffix(str, sub) {
+			return false
+		}
+		for _, sub := range rest {
+			if !strings.HasSuffix(str, sub) {
+				return false
+			}
+		}
+	}
+	return true
+}
